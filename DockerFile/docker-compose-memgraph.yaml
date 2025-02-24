@@ -1,0 +1,12 @@
+services:
+  memgraph:
+    image: "memgraph/memgraph:latest"
+    ports:
+      - "7687:7687"
+      - "7444:7444"
+    volumes:
+      - ./snapshots:/var/lib/memgraph/snapshots
+      - ./wal:/var/lib/memgraph/wal
+      - ./internal_modules:/var/lib/memgraph/internal_modules
+    command: ["--log-level=TRACE"]
+    
