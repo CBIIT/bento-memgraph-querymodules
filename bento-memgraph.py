@@ -1,5 +1,6 @@
 import mgp
 import json
+import ast
 
 @mgp.function
 def merge(map_a: mgp.Map, map_b: mgp.Map) -> mgp.Map:
@@ -51,8 +52,11 @@ def join_collection(collection: list, separator: str = '') -> str:
 
     return result
 @mgp.function
-def json_to_cypher(json_list):
-    cypher_list = "[" + ", ".join(map(str, json_list)) + "]"
+def remove_collection_braces(json_list):
+    if isinstance(json_list, str):
+        json_list = ast.literal_eval(json_list)
+    cleaned_list = [item.strip("'\"") if isinstance(item, str) else str(item) for item in json_list]
+    cypher_list = ", ".join(cleaned_list)
     return cypher_list
 @mgp.function
 def text_replace(string, old, new):
