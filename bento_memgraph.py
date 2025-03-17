@@ -67,7 +67,7 @@ def text_join(elements, delimiter):
     return delimiter.join(elements)
 @mgp.function
 def text_split(string, delimiter):
-    if type(string) is str:
+    if isinstance(string, str):
         return string.split(delimiter)
     else:
         return string
