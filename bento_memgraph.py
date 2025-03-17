@@ -14,9 +14,10 @@ def to_set(collection: list) -> list:
     result = []   
     
     for item in collection:
-
-        item_frozenset = frozenset(item.items())
-        
+        if isinstance(item, dict):
+            item_frozenset = frozenset(item.items())
+        else:
+            item_frozenset = item
 
         if item_frozenset not in seen:
             seen.add(item_frozenset)
@@ -66,5 +67,7 @@ def text_join(elements, delimiter):
     return delimiter.join(elements)
 @mgp.function
 def text_split(string, delimiter):
-    return string.split(delimiter)
-
+    if isinstance(string, str):
+        return string.split(delimiter)
+    else:
+        return string
