@@ -61,7 +61,10 @@ def remove_collection_braces(json_list):
     return cypher_list
 @mgp.function
 def text_replace(string, old, new):
-    return string.replace(old, new)
+    if isinstance(string, str):
+        return string.replace(old, new)
+    else:
+        string
 @mgp.function
 def text_join(elements, delimiter):
     return delimiter.join(elements)
