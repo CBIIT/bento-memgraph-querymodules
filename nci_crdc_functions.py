@@ -68,3 +68,44 @@ def text_join(elements, delimiter):
 def text_split(string, delimiter):
     return string.split(delimiter)
 
+@mgp.function
+def text_capitalize(string: str) -> str:
+    if not string:
+        return string
+    return string.capitalize()
+
+@mgp.function
+def map_group_by(collection: list, key: str) -> mgp.Map:
+    """
+    Groups items in a collection by a specified key, similar to apoc.map.groupBy.
+    
+    Args:
+        collection: List of dictionaries/maps to group
+        key: The key to group by
+        
+    Returns:
+        mgp.Map: A map where each key contains a list of items that share that key value
+    """
+    result = {}
+    
+    for item in collection:
+        # Handle both dict-like objects and mgp.Map objects
+        if hasattr(item, 'get'):
+            group_key = item.get(key)
+        elif isinstance(item, dict):
+            group_key = item.get(key)
+        else:
+            continue  # Skip items that don't have the expected structure
+            
+        # Convert the group key to string for consistency
+        group_key_str = str(group_key) if group_key is not None else "null"
+        
+        # Initialize the group if it doesn't exist
+        if group_key_str not in result:
+            result[group_key_str] = []
+            
+        # Add the item to the appropriate group
+        result[group_key_str].append(item)
+    
+    return result
+
